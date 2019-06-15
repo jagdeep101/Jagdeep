@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 #
 # this script generates a report of the files on the system that have the setuid permission bit turned on
 # it is for the lab1 exercise
@@ -17,5 +17,5 @@ echo "=============="
 find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
 echo "10 large files sorted by size"
 echo "=============="
-find / -type f -exec ls -lh --block-size=M {} \; 2>/dev/null | sort -hr -k5 | head -10 | awk '{print $5, $3}'
+find / -type f -exec ls -lh --block-size=M {} \; 2>/dev/null | sort -hr -k5 | head -10 | awk '{print $5, $3, $9}'
 echo ""

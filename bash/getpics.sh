@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 #
 # this script puts some picture files into a Pictures directory in our home directory
 # it only runs commands if they need to be run and only shows necessary output
