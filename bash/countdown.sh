@@ -7,17 +7,15 @@
 #       the count. If the script receives a QUIT signal, tell the user they found the secret
 #       to getting out of the script and exit immediately.
 
-# Task: Explain in a comment how the line with the word moose in it works.
+trap int_reset 2
+trap found_secret 3
 
-trap intComm 2
-#int using Ctrl C
-trap secretOut 3
-#quit using Ctrl \
-
-function secretOut {
-    echo "You found out the secret to getting out of the script"
-    exit
+function found_secret {
+  echo "You found out the secret to getting out of the script."
+  exit
 }
+
+# Task: Explain in a comment how the line with the word moose in it works.
 
 #### Variables
 programName="$(basename $0)" # used by error_functions.sh
@@ -30,8 +28,15 @@ numberOfSleeps=10 # how many sleeps to wait for before quitting for inactivity
 # Usage:
 #   error-message ["some text to print to stderr"]
 #
-#It prints programName and first arguments, redirects implicit stdout (1),
-# & is a file descriptor, 2 is for stderr - it redirects stdout from echo command to stderr
+#
+#THis function is named error-message
+#It will send an error message to stderr
+#It uses the echo command to print the variable programName and the first arguments.
+#It then redirects stdout (1)
+#& is the file descriptor
+#2 is used to denote stderr
+#>&2 redirects stdout from echo command to stderr.
+
 function error-message {
         echo "${programName}: ${1:-Unknown Error - a moose bit my sister once...}" >&2
 }
@@ -84,10 +89,12 @@ if [ ! $sleepTime -gt 0 ]; then
 fi
 
 sleepCount=$numberOfSleeps
-function intComm {
-    echo "You are not allowed to interrupt the count"
-    sleepCount=$(($numberOfSleeps+1))
+
+function int_reset {
+  echo "You are not allowed to interrupt the count."
+  sleepCount=$((numberOfSleeps+1))
 }
+
 while [ $sleepCount -gt 0 ]; do
     echo "Waiting $sleepCount more times for signals"
     sleep $sleepTime
