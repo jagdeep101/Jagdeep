@@ -15,14 +15,12 @@
 
 title="Overlord"
 hostname=$(hostname)
-time=$(date +%H:%M)
-today=$(date +%A)
+time=$(date + '%I:%M %p')
+weekday=$(date +%u)
 
 ###############
 # Main        #
 ###############
 
 cowsay Welcome to planet $hostname, \"$title $USER!\"
-The time is $time on a wonderful $today !!
-
-
+It is $time on a $weekday !

@@ -13,26 +13,22 @@
 #  display a summary of what was rolled, and what the result was
 
 # Variable
-sides=6
-offset=1
+side=6
+bias=1
 
 # Tell the user we have started processing
 
-echo "Rolling a pair of dice with $sides sides each
-"
+echo "Rolling a pair of $side sided dice "
 
 # roll the dice and save the results
-die1=$(( RANDOM % $sides + $offset))
-die2=$(( RANDOM % $sides + $offset ))
+die1=$(( RANDOM % $side + $bias))
+die2=$(( RANDOM % $side + $bias))
 
-# Sum up the rolls
+# Sum
 sum=$(( die1 + die2 ))
 
-# Average of the rolls
-avg=$(( sum/2 ))
+# Average
+average=$(( sum/2 ))
 
 # display the results as a summary
-echo "Summary:
-
-Rolled a pair of $sides sided dice.
-Got $die1 and $die2 for a sum of $sum and an average of $avg."
+echo "Rolled a pair of $side sided dice and got $die1 and $die2 for a sum of $sum and an average of $average."

@@ -1,26 +1,25 @@
 #!/bin/bash
 # This script demonstrates testing to see if 2 strings are the same
 
-myString="TestString"
+newString="TestString"
 referenceString="password"
 
-[ $myString = $referenceString ] && echo "You guessed the password!" || echo "The password eludes you..."
+[ $newString = $referenceString ] && echo "You guessed the password!" || echo "The password eludes you..."
 
 # TASK 1: Improve it by asking the user for a password guess instead of using inline literal data
 
 prompt="Guess the password : "
-read -p "$prompt" myString
+read -p "$prompt" newString
 
-referenceString="notadoctor"
-[ $myString = $referenceString ] && echo "You guessed the password!" || echo "The password eludes you..."
+referenceString="password"
+[ $newString = $referenceString ] && echo "You guessed the password!" || echo "The password eludes you..."
 
 # TASK 2: Improve it by rewriting it to use the if command
 
 prompt="Guess the password : "
-read -p "$prompt" myString
+read -p "$prompt" newString
 
-referenceString="notadoctor"
-if [ $myString = $referenceString ]
+if [ $newString = $referenceString ]
 then
   echo "You guessed the password!"
 else
@@ -30,26 +29,22 @@ fi
 # TASK 3: Improve it by giving them 3 tries to get it right before failing (test 3 times but only if necessary)
 #           *** Do not use the exit command
 
-echo ""
-echo "Guessing Game! YOu have three tries to guess the password!"
-echo ""
+echo "Guess the password within three tries"
 
-  referenceString="notadoctor"
-  guess=3
+  trynum=3
 
-  for ((i=1; i<=$guess; i++)) ;
+  for ((x=1; x<=$trynum; x++)) ;
   do
-    prompt="Guess the password : "
-    read -p "$prompt" myString
-    if [ $myString = $referenceString ]
+    prompt="Guess the password: "
+    read -p "$prompt" newString
+    if [ $newString = $referenceString ]
     then
-      echo "You guessed the password!!"
+      echo "You gussed the password correctly!"
       break
     else
       echo "The password eludes you..."
     fi
-    if [ $i -ge $guess ] ; then
-      echo "Sorry, you failed.. and the password still eludes you..."
+    if [ $x -ge $trynum ] ; then echo "The password eludes you..."
       break
     fi
   done

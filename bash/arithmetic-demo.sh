@@ -10,44 +10,31 @@
 # Improve this script by calculating and displaying the first number raised to the power of the second number
 
 #Asking user to enter two numbers
-prompt="Enter two numbers : "
+prompt="Enter the two numbers : "
 read -p "$prompt" firstnum secondnum
 
-#ADDITION
+# Operations
+
 sum=$((firstnum + secondnum))
-
-#SUBTRACTION
-sub=$((firstnum - secondnum))
-
-#DIVISION
+minus=$((firstnum - secondnum))
 dividend=$((firstnum / secondnum))
-
-#MODULUS
-mod=$((firstnum % secondnum))
-
-#PRECISE DIVISON
+modulus=$((firstnum % secondnum))
 fpdividend=$(awk "BEGIN{printf \"%.2f\", $firstnum/$secondnum}")
+multiply=$((firstnum * secondnum))
+raise_to=$((firstnum**secondnum))
 
-#MULTIPLICATION
-product=$((firstnum * secondnum))
-
-#POWER
-power=$((firstnum**secondnum))
-
-#RESULTS
+#Main Program
 
 cat <<EOF
 
-Results :
-
 $firstnum plus $secondnum is $sum
 
-$firstnum minus $secondnum is $sub
+$firstnum minus $secondnum is $minus
 
-$firstnum multiplied by $secondnum is $product
+$firstnum multiplied by $secondnum is $multiply
 
-$firstnum divided by $secondnum gives $dividend with a remainder of $mod
-  - More precisely, the quotient is $fpdividend
+$firstnum divided by $secondnum is $dividend with a remainder of $modulus
+  - More precisely, it is $fpdividend
 
-$firstnum raised to the power of $secondnum is $power
+$firstnum raised to $secondnum is $raise_to
 EOF

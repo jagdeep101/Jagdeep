@@ -20,25 +20,25 @@ while [ $# -gt 0 ]; do
   echo "Processing '$1'."
 case $1 in
     -h )
-    echo 'You typed in "-h" for help.'
+    echo 'You entered "-h" for help.'
     ;;
     -v )
-    echo 'You typed in "-v" for varbose.'
+    echo 'You entered "-v" for varbose.'
     ;;
     -d )
       case $2 in
         [1-5] )
-        echo "You typed in -d for debug level $2"
+        echo "You entered -d for debug level $2"
         shift
         ;;
         *)
-        echo "Error : The -d option must be followed by a number in the range [1-5]."
+        echo "Error : The -d option should be followed with a number [1-5]"
         shift
       esac
     ;;
   *)
-  error_msg=$1
-  echo "Error: Unknown value $error_msg"
+  error=$1
+  echo "Error: Unknown value $error"
   ;;
 esac
 

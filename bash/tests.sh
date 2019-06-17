@@ -63,26 +63,26 @@ test -x /etc/resolv.conf && echo "/etc/resolv.conf is executable" || echo "/etc/
 # TASK 1: Improve it by getting the user to give us the numbers to use in our tests
 
 prompt="Enter two numbers : "
-read -p "$prompt" firstNumber secondNumber
+read -p "$prompt" firstnum secondnum
 
 # TASK 2: Improve it by adding a test to tell the user if the numbers are even or odd
 
-[ $((firstNumber%2)) -eq 0 ] && echo "$firstNumber is an even number" || echo "$firstNumber is an odd number"
+[ $((firstnum%2)) -eq 0 ] && echo "$firstnum is an even number" || echo "$firstnum is an odd number"
 
-[ $((secondNumber%2)) -eq 0 ] && echo "$secondNumber is an even number" || echo "$secondNumber is an odd number"
+[ $((secondnum%2)) -eq 0 ] && echo "$secondnum is an even number" || echo "$secondnum is an odd number"
 
 # TASK 3: Improve it by adding a test to tell the user is the second number is a multiple of the first number
 
 
-[ $((secondNumber % firstNumber)) -eq 0 ] && echo "$secondNumber is a multiple of $firstNumber" || echo "$secondNumber is not a multiple of $firstNumber"
+[ $((secondnum % firstnum)) -eq 0 ] && echo "$secondnum is a multiple of $firstnum" || echo "$secondnum is not a multiple of $firstnum"
 
-[ $firstNumber -eq $secondNumber ] && echo "The two numbers are the same"
-[ $firstNumber -ne $secondNumber ] && echo "The two numbers are not the same"
-[ $firstNumber -lt $secondNumber ] && echo "The first number is less than the second number"
-[ $firstNumber -gt $secondNumber ] && echo "The first number is greater than the second number"
+[ $firstnum -eq $secondnum ] && echo "The two numbers are the same"
+[ $firstnum -ne $secondnum ] && echo "The two numbers are not the same"
+[ $firstnum -lt $secondnum ] && echo "The first number is less than the second number"
+[ $firstnum -gt $secondnum ] && echo "The first number is greater than the second number"
 
-[ $firstNumber -le $secondNumber ] && echo "The first number is less than or equal to the second number"
-[ $firstNumber -ge $secondNumber ] && echo "The first number is greater than or equal to the second number"
+[ $firstnum -le $secondnum ] && echo "The first number is less than or equal to the second number"
+[ $firstnum -ge $secondnum ] && echo "The first number is greater than or equal to the second number"
 
 # This section demonstrates testing variables
 

@@ -16,8 +16,8 @@
 title="Overlord"
 myname=$USER
 hostname=$(hostname)
-time=$(date +%H:%M)
-today=$(date +%A)
+time=$(date + '%I:%M %p')
+weekday=$(date +%u)
 
 ###############
 # Main        #
@@ -25,6 +25,6 @@ today=$(date +%A)
 cat <<EOF
 
 Welcome to planet $hostname, "$title $myname!"
-The time is $time on a wonderful $today !!
+It is $time on a $weekday !
 
 EOF

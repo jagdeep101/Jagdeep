@@ -11,16 +11,16 @@
 #      and the other output lines should be similarly helpful to the user
 
 # Rolling the six-sided dice and displaying the result
-echo "Rolling a pair of six-sided dice...
+echo "Rolling two six-sided dice -
 $(( RANDOM % 6 + 1)) and $(( RANDOM % 6 + 1 )) rolled.
 "
 
-#Rolling the 5 six-sided dice and displaying the result
-echo "Rolling five six-sided dice...
+#five six-sided dice and its result
+echo "Rolling five six-sided dice -
 $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1 )), $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1)) and $(( RANDOM % 6 + 1)) rolled.
 "
 
-#Rolling a single 20-sided die and displaying the result
-echo "Rolling a single 20-sided die...
+#twenty-sided die and its result
+echo "Rolling a 20-sided die
 $(( RANDOM % 20 + 1)) rolled.
 "

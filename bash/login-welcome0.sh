@@ -20,12 +20,12 @@
 # Variables   #
 ###############
 
-titles=("Avenger" "Chicken Master" "Deathbringer" "Hunter" "The Chosen One" "Horseman" "PUBG Hero" "Final Boss" )
+titles=("Lord" "Sir" "Student" "Fighter" "Honest" "Good" "Handsome")
 number=$(( ${#titles[@]} ))
 random_num=$(( RANDOM % number ))
 hostname=$(hostname)
-time=$(date +%H:%M)
-today=$(date +%A)
+time=$(date + '%I:%M %p')
+weekday=$(date +%u)
 
 ###############
 # Main        #
@@ -33,6 +33,4 @@ today=$(date +%A)
 
 
 cowsay Welcome to planet $hostname, \"${titles[$random_num]} $USER!\"
-The time is $time on a wonderful $today !!
-
-
+The time is $time on a wonderful $weekday
