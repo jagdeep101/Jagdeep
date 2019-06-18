@@ -13,6 +13,7 @@
 # Variables   #
 ###############
 
+
 title="Overlord"
 hostname=$(hostname)
 time=$(date + '%I:%M %p')
@@ -22,5 +23,5 @@ weekday=$(date +%u)
 # Main        #
 ###############
 
-cowsay Welcome to planet $hostname, \"$title $USER!\"
-It is $time on a $weekday !
+cowsay "Welcome to planet $hostname, "$title $USER!"
+It is $time on a $weekday !"
