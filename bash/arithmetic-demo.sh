@@ -34,10 +34,8 @@ $firstnum minus $secondnum is $minus
 $firstnum multiplied by $secondnum is $multiply
 
 $firstnum divided by $secondnum is $dividend with a remainder of $modulus
-  - More precisely, it is $fpdividend
+ - More precisely, it is $fpdividend
 
 $firstnum raised to $secondnum is $raise_to
 EOF
 
-
-#exit
