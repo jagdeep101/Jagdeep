@@ -38,3 +38,6 @@ $firstnum divided by $secondnum is $dividend with a remainder of $modulus
 
 $firstnum raised to $secondnum is $raise_to
 EOF
+
+
+#exit
