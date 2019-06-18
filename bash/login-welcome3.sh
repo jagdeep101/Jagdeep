@@ -24,7 +24,7 @@ titles=("Lord" "Sir" "Student" "Fighter" "Honest" "Good" "Handsome")
 number=$(( ${#titles[@]} ))
 random_num=$(( RANDOM % number ))
 hostname=$(hostname)
-time=$(date + '%I:%M %p')
+time=$(date +'%I:%M %p')
 weekday=$(date +%u)
 
 ###############
@@ -32,5 +32,5 @@ weekday=$(date +%u)
 ###############
 
 
-cowsay Welcome to planet $hostname, \"${titles[$random_num]} $USER!\"
-The time is $time on a wonderful $weekday
+cowsay "Welcome to planet $hostname, "${titles[$random_num]} $USER!"
+The time is $time on a wonderful $weekday"
