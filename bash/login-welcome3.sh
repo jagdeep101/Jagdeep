@@ -25,7 +25,7 @@ number=$(( ${#titles[@]} ))
 random_num=$(( RANDOM % number ))
 hostname=$(hostname)
 time=$(date +'%I:%M %p')
-weekday=$(date +%u)
+weekday=$(date +%A)
 
 ###############
 # Main        #
