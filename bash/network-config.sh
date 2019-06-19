@@ -1,54 +1,75 @@
 #!/bin/bash
 #
-# this script displays some host identification information for a simple Linux machine
+# this script displays some host identification information for a Linux machine
 #
 # Sample output:
-#   Hostname        : hostname
-#   LAN Address     : 192.168.2.2
-#   LAN Hostname    : host-name-from-hosts-file
-#   External IP     : 1.2.3.4
-#   External Name   : some.name.from.our.isp
-
-# Task 1: Add a section to the script to define variables which hold the output data for
-#         each output item and move the commands which generate the data to that section so that
-#         the output command only outputs the labels and single variables.
-
-# Task 2: Add output items for the default router's name and IP address,
-#         adding a name to your /etc/hosts file as needed.
-# e.g.
-#   Router Address  : 192.168.2.1
-#   Router Hostname : router-name-from-hosts-file
-
-# Task 3: Add output items for the network's name and IP address, adding a name to your /etc/networks file as needed.
-# e.g.
-#   Network Number. : 192.168.2.0
-#   Network Name    : network-name-from-networks-file
-
+#   Hostname      : zubu
+#   LAN Address   : 192.168.2.2
+#   LAN Name      : net2-linux
+#   External IP   : 1.2.3.4
+#   External Name : some.name.from.our.isp
+# the LAN info in this script uses a hardcoded interface name of "eno1"
+#    - change eno1 to whatever interface you have and want to gather info about in order to test the script
+# TASK 1: Dynamically identify the list of interface names for the computer running the script, and use a for loop to generate the report for every interface except loopback
+################
+# Data Gathering
+################
+# grep is used to filter ip command output so we don't have extra junk in our output
+# stream editing with sed and awk are used to extract only the data we want displayed
 # we use the hostname command to get our system name
-# the LAN name is looked up using the LAN address in case it is different from the system name
+
+my_hostname=$(hostname)
+
+# the default route can be found in the route table normally
+# the router name is obtained with getent
+
+default_router_address=$(ip r s default| cut -d ' ' -f 3)
+default_router_name=$(getent hosts $default_router_address|awk '{print $2}')
+
 # finding external information relies on curl being installed and relies on live internet connection
-# awk is used to extract only the data we want displayed from the commands which produce extra data
-# this command is ugly done this way, so generating the output data into variables is recommended to make the script more readable.
-# e.g.
 
-#Variables:
-
-interfaces=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
-router_addr=$(ip route | grep default | awk '{print $3}')
-
-#Main Program
+external_address=$(curl -s icanhazip.com)
+external_name=$(getent hosts $external_address | awk '{print $2}')
 
 cat <<EOF
-Hostname        : $(hostname)
-
-LAN Address     : $(ip a s $interfaces | awk '/inet /{gsub(/\/.*/,"");print $2}')
-LAN Hostname    : $(getent hosts "$(ip a s $interfaces|awk -F '[/ ]+' '/inet /{print $3}')" | awk '{print $2}')
-External IP     : $(curl -s icanhazip.com)
-External Name   : $(getent hosts "$(curl -s icanhazip.com)" | awk '{print $2}')
-
-Router Address  : $router_addr
-Router hostname : $(getent hosts $router_addr| awk '{print $2}')
-
-Network Number  : $(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")
-Network Name    : $(getent networks "$(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")"|awk '{print $1}')
+System Identification Summary
+=============================
+Hostname      : $my_hostname
+Default Router: $default_router_address
+Router Name   : $default_router_name
+External IP   : $external_address
+External Name : $external_name
 EOF
+
+# Define the interface being summarized
+# interface=$( ls -l /sys/class/net/ | awk '{print $9}')
+# loopback: sudo ifconfig lo:10 127.0.0.2 netmask 255.0.0.0 up
+# Find an address and hostname for the interface being summarized
+# we are assuming there is only one IPV4 address assigned to this interface
+# Identify the network number for this interface and its name if it has one
+
+count=$(lshw -class network | awk '/logical name:/{print $3}' | wc -l)
+for((w=1; w<=$count; w+=1));
+do
+  interface=$(lshw -class network |
+    awk '/logical name:/{print $3}' |
+      awk -v z=$w 'NR==z{print $1; exit}')
+  if [[ $interface = lo* ]] ; then continue ; fi
+
+  lan_addr=$(ip a s $interface | awk -F '[/ ]+' '/inet /{print $3}')
+  lan_name=$(getent hosts $lan_addr | awk '{print $2}')
+  net_addr=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
+  net_num=$(cut -d / -f 1 <<<"$net_addr")
+  net_name=$(getent networks $net_num|awk '{print $1}')
+
+cat <<- EOF
+Interface $interface:
+===============
+Address         : $lan_addr
+Name            : $lan_name
+Network Address : $net_addr
+Network Name    : $net_name
+
+EOF
+
+done
