@@ -34,6 +34,7 @@
 #Variables:
 
 interfaces=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
+router_addr=$(ip route | grep default | awk '{print $3}')
 
 #Main Program
 
@@ -45,8 +46,8 @@ LAN Hostname    : $(getent hosts "$(ip a s $interfaces|awk -F '[/ ]+' '/inet /{p
 External IP     : $(curl -s icanhazip.com)
 External Name   : $(getent hosts "$(curl -s icanhazip.com)" | awk '{print $2}')
 
-Router Address  : $(ip route | grep default | awk '{print $3}')
-Router hostname : $(getent hosts "$(ip route | grep default | awk '{print $3}')"| awk '{print $2}')
+Router Address  : $router_addr
+Router hostname : $(getent hosts $router_addr| awk '{print $2}')
 
 Network Number  : $(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")
 Network Name    : $(getent networks "$(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")"|awk '{print $1}')
