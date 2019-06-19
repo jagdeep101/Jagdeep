@@ -23,22 +23,22 @@ my_hostname=$(hostname)
 # the default route can be found in the route table normally
 # the router name is obtained with getent
 
-default_router_address=$(ip r s default| cut -d ' ' -f 3)
-default_router_name=$(getent hosts $default_router_address|awk '{print $2}')
+def_router_addr=$(ip r s default| cut -d ' ' -f 3)
+def_router_addr=$(getent hosts $def_router_addr|awk '{print $2}')
 
 # finding external information relies on curl being installed and relies on live internet connection
 
-external_address=$(curl -s icanhazip.com)
-external_name=$(getent hosts $external_address | awk '{print $2}')
+ext_ip=$(curl -s icanhazip.com)
+ext_name=$(getent hosts $ext_ip | awk '{print $2}')
 
 cat <<EOF
 System Identification Summary
 =============================
 Hostname      : $my_hostname
-Default Router: $default_router_address
-Router Name   : $default_router_name
-External IP   : $external_address
-External Name : $external_name
+Default Router: $def_router_addr
+Router Name   : $def_router_addr
+External IP   : $ext_ip
+External Name : $ext_name
 EOF
 
 # Define the interface being summarized
@@ -56,17 +56,18 @@ do
       awk -v z=$w 'NR==z{print $1; exit}')
   if [[ $interface = lo* ]] ; then continue ; fi
 
-  ipv4_address=$(ip a s $interface | awk -F '[/ ]+' '/inet /{print $3}')
-  ipv4_hostname=$(getent hosts $ipv4_address | awk '{print $2}')
-  network_address=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
-  network_number=$(cut -d / -f 1 <<<"$network_address")
-  network_name=$(getent networks $network_number|awk '{print $1}')
+  ip_addr=$(ip a s $interface | awk -F '[/ ]+' '/inet /{print $3}')
+  ip_name=$(getent hosts $ip_addr | awk '{print $2}')
+  net_addr=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
+  netnum=$(cut -d / -f 1 <<<"$net_addr")
+  netname=$(getent networks $netnum|awk '{print $1}')
 
-  echo Interface $interface:
-  echo ===============
-  echo Address         : $ipv4_address
-  echo Name            : $ipv4_hostname
-  echo Network Address : $network_address
-  echo Network Name    : $network_name
-
+cat << EOF
+Interface $interface:
+===============
+Address         : $ip_addr
+Name            : $ip_name
+Network Address : $net_addr
+Network Name    : $netname
+EOF
 done
